@@ -1,0 +1,646 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.portfolio.dao.*" %>
+<%@ page import="com.portfolio.model.*" %>
+<%
+  int uid = 1;
+  SkillDAO skillDAO = new SkillDAO();
+  ProjectDAO projectDAO = new ProjectDAO();
+  EducationDAO educationDAO = new EducationDAO();
+  List<Skill> skills = null;
+  List<Project> projects = null;
+  List<Education> eduList = null;
+  int projectCount = 4;
+  int skillCount = 8;
+  try {
+    skills = skillDAO.getSkillsByUser(uid);
+    projects = projectDAO.getProjectsByUser(uid);
+    eduList = educationDAO.getEducationByUser(uid);
+    projectCount = projectDAO.getProjectCount(uid);
+    skillCount = skillDAO.getSkillCount(uid);
+  } catch (Exception ex) {
+    // Graceful fallback
+  }
+%>
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jaydeep Verma | Computer Science & Engineering Undergraduate | Portfolio</title>
+  <meta name="description" content="Portfolio of Jaydeep Verma — Computer Science & Engineering Undergraduate at Techno India University (2024-2027). Proficient in Python, Java, C++, React.js, Next.js, SQL, and IoT Systems.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/main.css">
+</head>
+<body>
+
+  <!-- Custom Cursor Elements -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- Preloader Screen -->
+  <div id="loader">
+    <span class="loader-text">JV</span>
+    <div class="loader-bar-wrap">
+      <div class="loader-bar"></div>
+    </div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <a href="#home" class="nav-logo">
+      <span>JV</span><span class="dot">.</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#home" class="active">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#achievements">Achievements</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#certificates">Certificates</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <!-- Dark / Light Mode Switcher in Nav -->
+      <button class="theme-toggle-btn" id="nav-theme-toggle" aria-label="Toggle Light/Dark Theme" title="Toggle Theme">
+        <i class="fa-solid fa-sun"></i>
+      </button>
+
+      <a href="#contact" class="nav-btn">
+        <i class="fa-solid fa-envelope"></i> Get in Touch
+      </a>
+      <button class="hamburger" aria-label="Toggle navigation menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Floating Corner Light/Dark Theme Toggle Button -->
+  <button class="corner-theme-toggle" id="corner-theme-toggle" aria-label="Toggle Light/Dark Theme" title="Switch Theme (Light / Dark)">
+    <i class="fa-solid fa-sun"></i>
+  </button>
+
+  <!-- Hero Section -->
+  <section id="home">
+    <canvas id="particle-canvas"></canvas>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span> B.Tech CSE (2024–2027) &middot; Open for Software Engineering Internships &amp; Roles
+      </div>
+      <h1 class="hero-name">JAYDEEP VERMA</h1>
+      <div class="hero-typewriter">
+        <span class="typewriter-text"></span><span style="color:var(--accent);animation:liveBlink 1s infinite">|</span>
+      </div>
+      <p class="hero-desc">
+        Computer Science &amp; Engineering undergraduate at <strong>Techno India University, West Bengal</strong>. Skilled in building full-stack applications with <strong>React.js, Next.js, Node.js, and SQL</strong>, algorithmic problem solving in <strong>Python, Java, and C++</strong>, and developing telemetry hardware for <strong>IoT systems and participating in Smart India Hackathon (SIH 2025 &amp; 2026)</strong> with distinct projects.
+      </p>
+
+      <!-- Primary Action Buttons -->
+      <div class="hero-cta">
+        <a href="#projects" class="btn-primary">
+          <i class="fa-solid fa-code"></i> Explore Projects
+        </a>
+        <a href="#contact" class="btn-outline">
+          <i class="fa-solid fa-paper-plane"></i> Contact Me
+        </a>
+      </div>
+
+      <!-- Quick Social Profile Bar -->
+      <div class="social-links" style="justify-content:center;">
+        <a href="https://github.com/JD-the-techie" target="_blank" rel="noopener noreferrer" title="GitHub: JD-the-techie"><i class="fa-brands fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/jaydeep-verma-cse/" target="_blank" rel="noopener noreferrer" title="LinkedIn: jaydeep-verma-cse"><i class="fa-brands fa-linkedin-in"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Me Section -->
+  <section id="about">
+    <div class="reveal">
+      <span class="section-tag"><i class="fa-solid fa-user-graduate"></i> Personal Profile</span>
+      <h2 class="section-title">ABOUT JAYDEEP VERMA</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="about-grid">
+      <div class="reveal">
+        <div class="avatar-wrapper">
+          <div class="avatar-ring"></div>
+          <div class="avatar-img">
+            <img src="${pageContext.request.contextPath}/assets/img/profile.jpg" alt="Jaydeep Verma Profile Photo" loading="lazy">
+          </div>
+          <div class="location-badge">
+            <i class="fa-solid fa-location-dot"></i> Jamshedpur, India
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <p class="about-bio">
+          I am a <strong>Computer Science &amp; Engineering undergraduate (2024–2027)</strong> at <strong>Techno India University, West Bengal</strong> with a consistent academic record across engineering, diploma, and secondary schooling.
+        </p>
+        <p class="about-bio">
+          My primary focus is on developing robust software solutions using <strong>Python, Java, C++, React.js, Vite, Node.js, and SQL</strong>. I enjoy applying core computer science fundamentals—from Data Structures &amp; Algorithms to Database Management and Computer Networks—to real-world engineering challenges.
+        </p>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-number">7.41</span>
+            <span class="stat-label">B.Tech CGPA</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">86.6%</span>
+            <span class="stat-label">ICSE 10th Score</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">4+</span>
+            <span class="stat-label">Major Projects</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">SIH</span>
+            <span class="stat-label">2025 &amp; 2026 Participant</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills & Technical Knowledge Section -->
+  <section id="skills">
+    <div class="reveal">
+      <span class="section-tag"><i class="fa-solid fa-layer-group"></i> Core Competencies</span>
+      <h2 class="section-title">SKILLS &amp; KNOWLEDGE</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <!-- Technical Skills Matrix -->
+    <div class="skills-matrix-grid">
+      <!-- Category 1: Languages -->
+      <div class="skill-category-card reveal">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon"><i class="fa-solid fa-code"></i></div>
+          <h3 class="skill-cat-title">Programming Languages</h3>
+        </div>
+        <div class="skill-chips-wrap">
+          <span class="skill-chip"><i class="fa-brands fa-python"></i> Python</span>
+          <span class="skill-chip"><i class="fa-brands fa-java"></i> Java</span>
+          <span class="skill-chip"><i class="fa-solid fa-c"></i> C &amp; C++</span>
+          <span class="skill-chip"><i class="fa-brands fa-js"></i> JavaScript (ES6+)</span>
+          <span class="skill-chip"><i class="fa-solid fa-database"></i> SQL (Structured Query)</span>
+          <span class="skill-chip"><i class="fa-brands fa-html5"></i> HTML5 &amp; CSS3</span>
+        </div>
+      </div>
+
+      <!-- Category 2: Web & Full-Stack -->
+      <div class="skill-category-card reveal">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon"><i class="fa-brands fa-react"></i></div>
+          <h3 class="skill-cat-title">Web &amp; Full-Stack Development</h3>
+        </div>
+        <div class="skill-chips-wrap">
+          <span class="skill-chip"><i class="fa-brands fa-react"></i> React.js</span>
+          <span class="skill-chip"><i class="fa-solid fa-bolt"></i> Vite</span>
+          <span class="skill-chip"><i class="fa-solid fa-layer-group"></i> Next.js</span>
+          <span class="skill-chip"><i class="fa-brands fa-node-js"></i> Node.js &amp; Express</span>
+          <span class="skill-chip"><i class="fa-solid fa-network-wired"></i> RESTful APIs</span>
+          <span class="skill-chip"><i class="fa-solid fa-mobile-screen"></i> Responsive UI</span>
+        </div>
+      </div>
+
+      <!-- Category 3: Databases & Tools -->
+      <div class="skill-category-card reveal">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon"><i class="fa-solid fa-database"></i></div>
+          <h3 class="skill-cat-title">Databases &amp; Developer Tools</h3>
+        </div>
+        <div class="skill-chips-wrap">
+          <span class="skill-chip"><i class="fa-solid fa-database"></i> MySQL &amp; Relational DBs</span>
+          <span class="skill-chip"><i class="fa-brands fa-github"></i> Git &amp; GitHub</span>
+          <span class="skill-chip"><i class="fa-solid fa-cloud"></i> Microsoft Azure</span>
+          <span class="skill-chip"><i class="fa-solid fa-plug"></i> Postman API Testing</span>
+          <span class="skill-chip"><i class="fa-solid fa-laptop-code"></i> VS Code</span>
+          <span class="skill-chip"><i class="fa-brands fa-linux"></i> Linux &amp; Bash</span>
+        </div>
+      </div>
+
+      <!-- Category 4: IoT & Embedded Systems -->
+      <div class="skill-category-card reveal">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon"><i class="fa-solid fa-microchip"></i></div>
+          <h3 class="skill-cat-title">Hardware, IoT &amp; Telemetry</h3>
+        </div>
+        <div class="skill-chips-wrap">
+          <span class="skill-chip"><i class="fa-solid fa-microchip"></i> ESP32 Microcontrollers</span>
+          <span class="skill-chip"><i class="fa-solid fa-code"></i> Embedded C / C++</span>
+          <span class="skill-chip"><i class="fa-solid fa-temperature-high"></i> MAX6675 SPI Digitizer</span>
+          <span class="skill-chip"><i class="fa-solid fa-fire"></i> K-Type Thermocouple</span>
+          <span class="skill-chip"><i class="fa-solid fa-wifi"></i> Serial &amp; Sensor Telemetry</span>
+        </div>
+      </div>
+
+      <!-- Category 5: Computer Science Foundations -->
+      <div class="skill-category-card reveal" style="grid-column: 1 / -1;">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon"><i class="fa-solid fa-book-open"></i></div>
+          <h3 class="skill-cat-title">Computer Science Core Fundamentals</h3>
+        </div>
+        <div class="skill-chips-wrap">
+          <span class="skill-chip"><i class="fa-solid fa-network-wired"></i> Data Structures &amp; Algorithms (DSA)</span>
+          <span class="skill-chip"><i class="fa-solid fa-database"></i> Database Management Systems (DBMS)</span>
+          <span class="skill-chip"><i class="fa-solid fa-cubes-stacked"></i> Object-Oriented Programming (OOP)</span>
+          <span class="skill-chip"><i class="fa-solid fa-gears"></i> Operating Systems (OS)</span>
+          <span class="skill-chip"><i class="fa-solid fa-globe"></i> Computer Networks (CN)</span>
+          <span class="skill-chip"><i class="fa-solid fa-microchip"></i> Computer Architecture</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Soft Skills Matrix -->
+    <div class="skills-subheading reveal">
+      <i class="fa-solid fa-people-group"></i> Soft Skills &amp; Professional Attributes
+    </div>
+    <div class="soft-skills-grid reveal">
+      <div class="soft-skill-card">
+        <div class="soft-skill-icon"><i class="fa-solid fa-lightbulb"></i></div>
+        <span class="soft-skill-name">Analytical Problem Solving</span>
+      </div>
+      <div class="soft-skill-card">
+        <div class="soft-skill-icon"><i class="fa-solid fa-users"></i></div>
+        <span class="soft-skill-name">Agile Team Collaboration</span>
+      </div>
+      <div class="soft-skill-card">
+        <div class="soft-skill-icon"><i class="fa-solid fa-comments"></i></div>
+        <span class="soft-skill-name">Technical Communication</span>
+      </div>
+      <div class="soft-skill-card">
+        <div class="soft-skill-icon"><i class="fa-solid fa-bolt"></i></div>
+        <span class="soft-skill-name">Adaptability &amp; Rapid Learning</span>
+      </div>
+      <div class="soft-skill-card">
+        <div class="soft-skill-icon"><i class="fa-solid fa-list-check"></i></div>
+        <span class="soft-skill-name">Project &amp; Time Management</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Projects Section (Strictly Projects) -->
+  <section id="projects">
+    <div class="reveal">
+      <span class="section-tag"><i class="fa-solid fa-laptop-code"></i> Hands-On Software &amp; Systems</span>
+      <h2 class="section-title">PROJECTS</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <!-- Filter & Search Controls -->
+    <div class="project-filters reveal">
+      <button class="filter-btn active" data-filter="all">All Projects</button>
+      <button class="filter-btn" data-filter="web">Web &amp; Full-Stack</button>
+      <button class="filter-btn" data-filter="iot">IoT &amp; Embedded</button>
+      <button class="filter-btn" data-filter="systems">Systems &amp; Database</button>
+      <input type="text" class="search-box" placeholder="🔍 Search projects..." aria-label="Search projects">
+    </div>
+
+    <div class="projects-grid">
+      <!-- Project 1: Disaster Management Web App (SIH 2025) -->
+      <div class="project-card reveal" data-category="web">
+        <div class="project-header-banner">
+          <span class="project-category-tag"><i class="fa-solid fa-tower-broadcast"></i> Full-Stack Web</span>
+          <span class="project-badge-pill sih"><i class="fa-solid fa-code"></i> SIH 2025 Project</span>
+        </div>
+        <div class="project-body">
+          <h3 class="project-title">Real-Time Disaster Management Web Platform</h3>
+          <p class="project-desc">
+            Emergency response application developed as part of participation in <strong>Smart India Hackathon (SIH 2025)</strong> to coordinate disaster alerts, transmit SOS requests, allocate rescue teams, and provide situation updates.
+          </p>
+          <ul class="project-bullets">
+            <li><i class="fa-solid fa-circle-check"></i> Built real-time SOS alerting workflows and emergency incident dispatch tracking.</li>
+            <li><i class="fa-solid fa-circle-check"></i> Designed lightweight user interfaces in React.js and Vite.</li>
+            <li><i class="fa-solid fa-circle-check"></i> Created Node.js backend endpoints with structured database persistence.</li>
+          </ul>
+          <div class="tech-tags">
+            <span class="tag">React.js</span>
+            <span class="tag indigo">Vite</span>
+            <span class="tag">Node.js</span>
+            <span class="tag pink">REST APIs</span>
+            <span class="tag">SIH 2025</span>
+          </div>
+          <div class="project-actions">
+            <a href="https://github.com/JD-the-techie" target="_blank" rel="noopener noreferrer" class="project-btn primary"><i class="fa-brands fa-github"></i> View Repository</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 2: Vortex IoT Jet Engine Telemetry -->
+      <div class="project-card reveal" data-category="iot">
+        <div class="project-header-banner">
+          <span class="project-category-tag"><i class="fa-solid fa-microchip"></i> IoT &amp; Hardware</span>
+          <span class="project-badge-pill"><i class="fa-solid fa-users"></i> Hardware Team Lead</span>
+        </div>
+        <div class="project-body">
+          <h3 class="project-title">Vortex — IoT Jet Engine Temperature Telemetry</h3>
+          <p class="project-desc">
+            Embedded sensor telemetry monitoring system developed for a custom jet engine prototype at <strong>Club Technothon</strong>. Streams real-time exhaust gas temperature readings to monitor engine thermal performance.
+          </p>
+          <ul class="project-bullets">
+            <li><i class="fa-solid fa-circle-check"></i> Interfaced ESP32 microcontroller with MAX6675 SPI amplifier and high-temp K-Type thermocouple.</li>
+            <li><i class="fa-solid fa-circle-check"></i> Programmed non-blocking sensor acquisition loops with temperature safety triggers in C++.</li>
+            <li><i class="fa-solid fa-circle-check"></i> Led hardware team through circuit assembly, calibration, and telemetry validation.</li>
+          </ul>
+          <div class="tech-tags">
+            <span class="tag">ESP32</span>
+            <span class="tag indigo">Embedded C++</span>
+            <span class="tag">MAX6675</span>
+            <span class="tag pink">K-Type Thermocouple</span>
+            <span class="tag">IoT Telemetry</span>
+          </div>
+          <div class="project-actions">
+            <a href="https://github.com/JD-the-techie" target="_blank" rel="noopener noreferrer" class="project-btn primary"><i class="fa-brands fa-github"></i> View Repository</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 3: Real-Time Currency Converter -->
+      <div class="project-card reveal" data-category="web">
+        <div class="project-header-banner">
+          <span class="project-category-tag"><i class="fa-solid fa-chart-line"></i> Web &amp; API Integration</span>
+          <span class="project-badge-pill"><i class="fa-solid fa-bolt"></i> Live Exchange Rates</span>
+        </div>
+        <div class="project-body">
+          <h3 class="project-title">Real-Time Global Currency Converter</h3>
+          <p class="project-desc">
+            Responsive financial tool integrating live foreign exchange rate APIs for instant multi-currency conversions, user-friendly currency selection, and fast evaluations.
+          </p>
+          <ul class="project-bullets">
+            <li><i class="fa-solid fa-circle-check"></i> Built with React.js &amp; Vite utilizing custom React hooks for state and API handling.</li>
+            <li><i class="fa-solid fa-circle-check"></i> Implemented client-side caching to reduce unnecessary network requests.</li>
+            <li><i class="fa-solid fa-circle-check"></i> Clean responsive interface with instant calculations and error state handling.</li>
+          </ul>
+          <div class="tech-tags">
+            <span class="tag">React.js</span>
+            <span class="tag indigo">Vite</span>
+            <span class="tag">ExchangeRate API</span>
+            <span class="tag pink">JavaScript ES6</span>
+            <span class="tag">CSS3</span>
+          </div>
+          <div class="project-actions">
+            <a href="https://github.com/JD-the-techie" target="_blank" rel="noopener noreferrer" class="project-btn primary"><i class="fa-brands fa-github"></i> View Repository</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 4: Dynamic Library Management System -->
+      <div class="project-card reveal" data-category="systems">
+        <div class="project-header-banner">
+          <span class="project-category-tag"><i class="fa-solid fa-database"></i> Database &amp; Backend</span>
+          <span class="project-badge-pill"><i class="fa-solid fa-check"></i> Relational MySQL</span>
+        </div>
+        <div class="project-body">
+          <h3 class="project-title">Dynamic Library &amp; Inventory Management System</h3>
+          <p class="project-desc">
+            Relational database software application supporting book inventory cataloging, student loan issuing, automated overdue fine computation, and structured query searching.
+          </p>
+          <ul class="project-bullets">
+            <li><i class="fa-solid fa-circle-check"></i> Structured application logic using Object-Oriented Programming (OOP) and DAO patterns.</li>
+            <li><i class="fa-solid fa-circle-check"></i> Designed normalized relational tables in MySQL with primary/foreign keys.</li>
+            <li><i class="fa-solid fa-circle-check"></i> Implemented automated date-differential calculation for overdue fine assessments.</li>
+          </ul>
+          <div class="tech-tags">
+            <span class="tag">Java / Python</span>
+            <span class="tag indigo">MySQL</span>
+            <span class="tag">JDBC / DAO</span>
+            <span class="tag pink">OOP Architecture</span>
+            <span class="tag">CRUD</span>
+          </div>
+          <div class="project-actions">
+            <a href="https://github.com/JD-the-techie" target="_blank" rel="noopener noreferrer" class="project-btn primary"><i class="fa-brands fa-github"></i> View Repository</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Achievements & Leadership Section (Strictly Honors & Activities) -->
+  <section id="achievements">
+    <div class="reveal">
+      <span class="section-tag"><i class="fa-solid fa-trophy"></i> Recognition &amp; Extracurriculars</span>
+      <h2 class="section-title">ACHIEVEMENTS &amp; LEADERSHIP</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="achievements-grid">
+      <!-- Achievement 1 -->
+      <div class="achievement-card reveal">
+        <div class="ach-header">
+          <div class="ach-icon"><i class="fa-solid fa-flag-checkered"></i></div>
+          <div class="ach-meta">
+            <h3>Smart India Hackathon (SIH 2025 &amp; 2026)</h3>
+            <span class="ach-org">Participant &middot; Smart India Hackathon (2025 &amp; 2026 Editions)</span>
+          </div>
+        </div>
+        <p class="ach-desc">
+          Participated in Smart India Hackathon (SIH 2025 &amp; 2026) developing innovative software solutions including a real-time Disaster Management Web Platform facilitating SOS alerting, incident tracking, and rescue dispatch.
+        </p>
+      </div>
+
+      <!-- Achievement 2 -->
+      <div class="achievement-card reveal">
+        <div class="ach-header">
+          <div class="ach-icon"><i class="fa-solid fa-users-gear"></i></div>
+          <div class="ach-meta">
+            <h3>Hardware Team Leader — Vortex Project</h3>
+            <span class="ach-org">Club Technothon &middot; IoT &amp; Embedded Systems</span>
+          </div>
+        </div>
+        <p class="ach-desc">
+          Led the engineering hardware team in designing, assembling, and calibrating high-temperature sensor telemetry systems using ESP32 microcontrollers and MAX6675 SPI digitizers for custom jet engines.
+        </p>
+      </div>
+
+      <!-- Achievement 3 -->
+      <div class="achievement-card reveal">
+        <div class="ach-header">
+          <div class="ach-icon"><i class="fa-solid fa-award"></i></div>
+          <div class="ach-meta">
+            <h3>Academic Excellence &amp; Technical Foundation</h3>
+            <span class="ach-org">Techno India University &amp; Board Records</span>
+          </div>
+        </div>
+        <p class="ach-desc">
+          Maintained consistent academic merit with a <strong>7.41 B.Tech CGPA</strong>, <strong>7.62 Diploma CGPA</strong>, and <strong>86.6% in ICSE 10th</strong>, with deep conceptual grounding in core Computer Science fundamentals.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Complete Education Section -->
+  <section id="education">
+    <div class="reveal">
+      <span class="section-tag"><i class="fa-solid fa-graduation-cap"></i> Academic Qualifications</span>
+      <h2 class="section-title">EDUCATION JOURNEY</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="timeline">
+      <!-- Edu 1: B.Tech CSE -->
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2024 — Present (2024 – 2027)</div>
+        <div class="timeline-card">
+          <h3 class="timeline-institution">Techno India University, West Bengal</h3>
+          <p class="timeline-degree">Bachelor of Technology (B.Tech) in Computer Science &amp; Engineering</p>
+          <span class="edu-score-pill"><i class="fa-solid fa-star"></i> CGPA: 7.41 / 10</span>
+        </div>
+      </div>
+
+      <!-- Edu 2: Diploma in Civil Engineering -->
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2021 — 2024</div>
+        <div class="timeline-card">
+          <h3 class="timeline-institution">Government Polytechnic, Tekari, Gaya</h3>
+          <p class="timeline-degree">Diploma in Engineering</p>
+          <span class="edu-score-pill"><i class="fa-solid fa-award"></i> CGPA: 7.62 / 10</span>
+        </div>
+      </div>
+
+      <!-- Edu 3: Higher Secondary (12th) -->
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2020</div>
+        <div class="timeline-card">
+          <h3 class="timeline-institution">Kerala Public School, Kadma, Jamshedpur</h3>
+          <p class="timeline-degree">Indian School Certificate Examination (ISC - 12th)</p>
+          <span class="edu-score-pill green"><i class="fa-solid fa-percent"></i> Percentage: 73.25%</span>
+        </div>
+      </div>
+
+      <!-- Edu 4: Secondary School (10th) -->
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2018</div>
+        <div class="timeline-card">
+          <h3 class="timeline-institution">Kerala Public School, Kadma, Jamshedpur</h3>
+          <p class="timeline-degree">Indian Certificate of Secondary Education (ICSE - 10th)</p>
+          <span class="edu-score-pill green"><i class="fa-solid fa-percent"></i> Percentage: 86.6%</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Certificates Section (The ONLY Google Drive Access Point) -->
+  <section id="certificates">
+    <div class="reveal">
+      <span class="section-tag"><i class="fa-solid fa-certificate"></i> Verified Credentials</span>
+      <h2 class="section-title">CERTIFICATES &amp; CREDENTIALS</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <!-- The Single Official Verified Google Drive Access Banner -->
+    <div class="drive-banner reveal">
+      <div class="drive-banner-left">
+        <div class="drive-banner-icon"><i class="fa-brands fa-google-drive"></i></div>
+        <div class="drive-banner-text">
+          <h3>Official Verified Certificates &amp; Documents</h3>
+          <p>Review all certified course credentials, academic marksheets, hackathon participations, and project documentation directly on Google Drive.</p>
+        </div>
+      </div>
+      <a href="https://drive.google.com/drive/folders/1nzosTT83avKsxbWY4MdIqV6mmHdrznEY" target="_blank" rel="noopener noreferrer" class="btn-primary" style="white-space:nowrap;">
+        <i class="fa-brands fa-google-drive"></i> Open Certificates in Google Drive &rarr;
+      </a>
+    </div>
+  </section>
+
+  <!-- Contact Section with Masked Personal Info & Direct Email Dispatch -->
+  <section id="contact">
+    <div class="reveal">
+      <span class="section-tag"><i class="fa-solid fa-paper-plane"></i> Get in Touch</span>
+      <h2 class="section-title">LET'S CONNECT</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <!-- Masked Email -->
+        <div class="contact-item copyable" data-copy="jaydeepverma.jsr@gmail.com" data-type="email" title="Click to copy email address">
+          <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+          <div class="contact-text-wrap">
+            <div class="contact-label">Email Address</div>
+            <div class="contact-value">jayd•••••••••••@gmail.com</div>
+          </div>
+          <span class="copy-hint"><i class="fa-regular fa-copy"></i> Click to Copy</span>
+        </div>
+
+        <!-- Masked Phone -->
+        <div class="contact-item copyable" data-copy="+916204048706" data-type="phone number" title="Click to copy phone number">
+          <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+          <div class="contact-text-wrap">
+            <div class="contact-label">Phone Number</div>
+            <div class="contact-value">+91 62040•••••</div>
+          </div>
+          <span class="copy-hint"><i class="fa-regular fa-copy"></i> Click to Copy</span>
+        </div>
+
+        <!-- Location -->
+        <div class="contact-item" style="cursor:default;">
+          <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+          <div class="contact-text-wrap">
+            <div class="contact-label">Location</div>
+            <div class="contact-value" style="font-family:var(--font-body);">Jamshedpur, India</div>
+          </div>
+        </div>
+
+        <div class="social-links" style="margin-top:0.5rem;">
+          <a href="https://github.com/JD-the-techie" target="_blank" rel="noopener noreferrer" title="GitHub: JD-the-techie"><i class="fa-brands fa-github"></i></a>
+          <a href="https://www.linkedin.com/in/jaydeep-verma-cse/" target="_blank" rel="noopener noreferrer" title="LinkedIn: jaydeep-verma-cse"><i class="fa-brands fa-linkedin-in"></i></a>
+        </div>
+      </div>
+
+      <!-- Real Working Contact Form -->
+      <form id="contact-form" class="contact-form reveal" action="https://formsubmit.co/jaydeepverma.jsr@gmail.com" method="POST" novalidate>
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+
+        <div class="form-group">
+          <label for="name">Your Name *</label>
+          <input type="text" id="name" name="name" placeholder="e.g. Hiring Manager / Recruiter" required>
+          <span class="error-msg">Please enter your name</span>
+        </div>
+        <div class="form-group">
+          <label for="email">Your Email Address *</label>
+          <input type="email" id="email" name="email" placeholder="e.g. recruiter@company.com" required>
+          <span class="error-msg">Please enter a valid email address</span>
+        </div>
+        <div class="form-group">
+          <label for="subject">Subject / Opportunity</label>
+          <input type="text" id="subject" name="subject" placeholder="e.g. Software Engineering Opportunity">
+        </div>
+        <div class="form-group">
+          <label for="message">Your Message *</label>
+          <textarea id="message" name="message" rows="4" placeholder="Hi Jaydeep, I came across your portfolio and would like to connect regarding..." required></textarea>
+          <span class="error-msg">Please enter your message</span>
+        </div>
+
+        <button type="submit" class="btn-primary" style="align-self:flex-start; margin-top:0.3rem;">
+          <i class="fa-solid fa-paper-plane"></i> Send Message
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Toast Notification Container -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-logo">JAYDEEP VERMA.</div>
+    <p class="footer-text">
+      Computer Science &amp; Engineering Undergraduate &middot; Designed &amp; Built by <span>Jaydeep Verma</span> &copy; 2026.
+    </p>
+    <div class="footer-socials">
+      <a href="https://github.com/JD-the-techie" target="_blank" rel="noopener noreferrer" title="GitHub"><i class="fa-brands fa-github"></i></a>
+      <a href="https://www.linkedin.com/in/jaydeep-verma-cse/" target="_blank" rel="noopener noreferrer" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+    </div>
+  </footer>
+
+  <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
+</body>
+</html>
