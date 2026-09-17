@@ -29,7 +29,12 @@ public class EducationDAO {
         e.setUserId(rs.getInt("user_id"));
         e.setInstitution(rs.getString("institution"));
         e.setDegree(rs.getString("degree"));
-        e.setCgpa(rs.getDouble("cgpa"));
+        try {
+            e.setScoreText(rs.getString("score_text"));
+        } catch (SQLException ignored) {}
+        try {
+            e.setCgpa(rs.getDouble("cgpa"));
+        } catch (SQLException ignored) {}
         e.setStartYear(rs.getInt("start_year"));
         e.setEndYear(rs.getInt("end_year"));
         return e;

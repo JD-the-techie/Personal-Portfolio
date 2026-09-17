@@ -36,7 +36,7 @@ public class ProjectDAO {
     }
 
     public boolean addProject(Project p) throws SQLException {
-        String sql = "INSERT INTO projects (user_id, title, description, tech_stack, project_url, github_url, is_featured) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO projects (user_id, title, description, tech_stack, project_url, github_url, role, is_featured) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, p.getUserId());
@@ -45,13 +45,14 @@ public class ProjectDAO {
             ps.setString(4, p.getTechStack());
             ps.setString(5, p.getProjectUrl());
             ps.setString(6, p.getGithubUrl());
-            ps.setBoolean(7, p.isFeatured());
+            ps.setString(7, p.getRole());
+            ps.setBoolean(8, p.isFeatured());
             return ps.executeUpdate() > 0;
         }
     }
 
     public boolean updateProject(Project p) throws SQLException {
-        String sql = "UPDATE projects SET title=?, description=?, tech_stack=?, project_url=?, github_url=?, is_featured=? WHERE project_id=?";
+        String sql = "UPDATE projects SET title=?, description=?, tech_stack=?, project_url=?, github_url=?, role=?, is_featured=? WHERE project_id=?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, p.getTitle());
@@ -59,8 +60,9 @@ public class ProjectDAO {
             ps.setString(3, p.getTechStack());
             ps.setString(4, p.getProjectUrl());
             ps.setString(5, p.getGithubUrl());
-            ps.setBoolean(6, p.isFeatured());
-            ps.setInt(7, p.getProjectId());
+            ps.setString(6, p.getRole());
+            ps.setBoolean(7, p.isFeatured());
+            ps.setInt(8, p.getProjectId());
             return ps.executeUpdate() > 0;
         }
     }
@@ -95,6 +97,9 @@ public class ProjectDAO {
         p.setTechStack(rs.getString("tech_stack"));
         p.setProjectUrl(rs.getString("project_url"));
         p.setGithubUrl(rs.getString("github_url"));
+        try {
+            p.setRole(rs.getString("role"));
+        } catch (SQLException ignored) {}
         p.setFeatured(rs.getBoolean("is_featured"));
         p.setCreatedAt(rs.getTimestamp("created_at"));
         return p;

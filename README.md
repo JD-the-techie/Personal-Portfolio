@@ -1,62 +1,44 @@
 # Dynamic Personal Portfolio — Jaydeep Verma
 
-A production-grade dynamic portfolio website built with **JSP + Servlets + MySQL + JDBC** and a dark, animated frontend inspired by carlgordonmedia.com.
+A modern, high-performance dynamic portfolio website with a dark/light animated frontend, particle canvas, typewriter effect, project filtering, and client-side administrative capabilities.
 
 ## Tech Stack
-- **Frontend:** HTML5, CSS3, JavaScript (particles, typewriter, scroll reveal)
-- **Backend:** Java 17, Jakarta Servlet 6, JSP
-- **Database:** MySQL 8
-- **Auth:** BCrypt password hashing, Session-based auth
-- **Build:** Apache Maven, deployable on Tomcat 10+
+- **Frontend:** HTML5, Vanilla CSS3, JavaScript ES6+ (Canvas particles, typewriter, Intersection Observer scroll reveal, live filtering, theme switcher)
+- **Data & State:** Persistent client-side state with `localStorage` (Zero external database configuration required)
+- **Deployment:** Standalone static web application (Can be run locally or hosted directly on GitHub Pages, Vercel, Netlify, or any web server)
 
-## Setup Instructions
+## Running the Application
 
-### 1. Database
+### 1. Local Run
+You can open `index.html` directly in any web browser or serve it via a lightweight local server:
 ```bash
-mysql -u root -p < portfolio_db.sql
+python -m http.server 8080 --directory src/main/webapp
 ```
-Then update the password in `src/main/java/com/portfolio/db/DBConnection.java`:
-```java
-private static final String PASSWORD = "your_actual_mysql_password";
-```
+Open: `http://localhost:8080/`
 
-### 2. Build
-```bash
-cd portfolio
-mvn clean package
-```
-This creates `target/portfolio.war`.
-
-### 3. Deploy
-- Copy `target/portfolio.war` into your **Tomcat 10+** `webapps/` folder.
-- Start Tomcat.
-- Open: `http://localhost:8080/portfolio/`
-
-### 4. Admin Access
-- Register at: `http://localhost:8080/portfolio/register.jsp`
-- Login at: `http://localhost:8080/portfolio/login.jsp`
-- Dashboard: `http://localhost:8080/portfolio/dashboard/index.jsp`
+### 2. Available Pages
+- **Public Portfolio:** `http://localhost:8080/index.html`
+- **Admin Login:** `http://localhost:8080/login.html`
+- **Admin Register:** `http://localhost:8080/register.html`
+- **Admin Dashboard:** `http://localhost:8080/dashboard/index.html`
+- **Project Management:** `http://localhost:8080/dashboard/projects.html`
+- **Skills Management:** `http://localhost:8080/dashboard/skills.html`
 
 ## Project Structure
 ```
 portfolio/
-├── pom.xml
-├── portfolio_db.sql
 ├── README.md
-└── src/main/
-    ├── java/com/portfolio/
-    │   ├── db/DBConnection.java
-    │   ├── model/ (User, Project, Skill, Education, Message)
-    │   ├── dao/   (UserDAO, ProjectDAO, SkillDAO, EducationDAO, MessageDAO)
-    │   ├── servlet/ (Login, Register, Logout, Project, Skill, Contact)
-    │   └── filter/SessionFilter.java
-    └── webapp/
-        ├── WEB-INF/web.xml
-        ├── assets/css/main.css
-        ├── assets/js/main.js
-        ├── index.jsp (public portfolio)
-        ├── login.jsp, register.jsp
-        └── dashboard/ (index, projects, skills)
+├── index.html
+├── login.html
+├── register.html
+└── src/main/webapp/
+    ├── assets/
+    │   ├── css/main.css
+    │   ├── js/main.js
+    │   └── img/
+    ├── index.html (public portfolio)
+    ├── login.html, register.html
+    └── dashboard/ (index.html, projects.html, skills.html)
 ```
 
 ## Features

@@ -10,6 +10,7 @@ public class Project {
     private String techStack;
     private String projectUrl;
     private String githubUrl;
+    private String role;
     private boolean isFeatured;
     private Timestamp createdAt;
 
@@ -35,6 +36,9 @@ public class Project {
 
     public String getGithubUrl() { return githubUrl; }
     public void setGithubUrl(String githubUrl) { this.githubUrl = githubUrl; }
+
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
 
     public boolean isFeatured() { return isFeatured; }
     public void setFeatured(boolean featured) { isFeatured = featured; }
