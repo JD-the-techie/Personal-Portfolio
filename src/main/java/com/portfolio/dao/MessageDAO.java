@@ -9,12 +9,13 @@ import java.util.List;
 public class MessageDAO {
 
     public boolean saveMessage(Message msg) throws SQLException {
-        String sql = "INSERT INTO messages (sender_name, sender_email, message) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO messages (sender_name, sender_email, subject, message) VALUES (?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, msg.getSenderName());
             ps.setString(2, msg.getSenderEmail());
-            ps.setString(3, msg.getMessage());
+            ps.setString(3, msg.getSubject() != null ? msg.getSubject() : "");
+            ps.setString(4, msg.getMessage());
             return ps.executeUpdate() > 0;
         }
     }
@@ -47,6 +48,9 @@ public class MessageDAO {
         m.setMessageId(rs.getInt("message_id"));
         m.setSenderName(rs.getString("sender_name"));
         m.setSenderEmail(rs.getString("sender_email"));
+        try {
+            m.setSubject(rs.getString("subject"));
+        } catch (SQLException ignored) {}
         m.setMessage(rs.getString("message"));
         m.setSentAt(rs.getTimestamp("sent_at"));
         m.setRead(rs.getBoolean("is_read"));

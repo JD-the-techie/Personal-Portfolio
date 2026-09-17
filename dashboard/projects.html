@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Projects | Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <style>
+    body{cursor:auto;display:flex;min-height:100vh}
+    .sb{width:240px;background:var(--surface);border-right:1px solid var(--border);padding:2rem 1.2rem;display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0}
+    .sb-logo{font-family:var(--font-heading);font-size:2rem;color:var(--accent);margin-bottom:2rem;letter-spacing:.1em}
+    .sb ul{list-style:none;display:flex;flex-direction:column;gap:.4rem;flex:1}
+    .sb a{display:flex;align-items:center;gap:.7rem;padding:.8rem 1rem;border-radius:10px;color:var(--muted);text-decoration:none;font-size:.9rem;transition:.3s}
+    .sb a:hover,.sb a.active{background:rgba(168,85,247,.12);color:var(--accent-light)}
+    .sb-bot{border-top:1px solid var(--border);padding-top:1rem}
+    .sb-bot a{color:#ff6b6b}
+    .mc{margin-left:240px;flex:1;padding:2rem 3rem}
+    .dh{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem}
+    .dh h1{font-family:var(--font-heading);font-size:2.5rem}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:.9rem;text-align:left;border-bottom:1px solid var(--border)}
+    th{color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.1em}
+    tr:hover{background:var(--glass)}
+    .fb{background:rgba(168,85,247,.15);color:var(--accent-light);padding:.2rem .6rem;border-radius:20px;font-size:.75rem;font-weight:600}
+    .ab{padding:.4rem .8rem;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--muted);cursor:pointer;font-size:.8rem;font-family:var(--font-body);transition:.3s;margin-right:.3rem}
+    .ab:hover{border-color:var(--accent);color:var(--accent-light)}
+    .ab.del{color:#ff6b6b;border-color:rgba(255,77,77,.3)}
+    .ab.del:hover{background:rgba(255,77,77,.1);border-color:#ff6b6b}
+    .mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;align-items:center;justify-content:center}
+    .mo.show{display:flex}
+    .md{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;width:100%;max-width:500px}
+    .md h2{font-family:var(--font-heading);font-size:1.8rem;margin-bottom:1.2rem}
+    .md .form-group{margin-bottom:1rem}
+    .br{display:flex;gap:1rem;margin-top:1rem}
+    .bc{padding:.7rem 1.2rem;background:transparent;border:1px solid var(--border);border-radius:50px;color:var(--muted);cursor:pointer;font-family:var(--font-body)}
+    .cl{display:flex;align-items:center;gap:.5rem;color:var(--muted);font-size:.9rem}
+    .cl input{accent-color:var(--accent)}
+    @media (max-width: 768px) {
+      .sb{position:static;width:100%;}
+      body{flex-direction:column;}
+      .mc{margin-left:0;padding:1.5rem;}
+    }
+  </style>
+</head>
+<body>
+  <aside class="sb">
+    <div class="sb-logo">JV. Admin</div>
+    <ul>
+      <li><a href="index.html"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+      <li><a href="projects.html" class="active"><i class="fa-solid fa-diagram-project"></i> Projects</a></li>
+      <li><a href="skills.html"><i class="fa-solid fa-code"></i> Skills</a></li>
+      <li><a href="../index.html"><i class="fa-solid fa-eye"></i> View Site</a></li>
+    </ul>
+    <div class="sb-bot"><a href="../login.html?logout=true"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></div>
+  </aside>
+  <main class="mc">
+    <div class="dh"><h1>Projects</h1><button class="btn-primary" onclick="openM('add')">+ Add Project</button></div>
+    <table>
+      <thead><tr><th>Title</th><th>Tech Stack</th><th>Featured</th><th>Actions</th></tr></thead>
+      <tbody id="projects-tbody">
+      </tbody>
+    </table>
+  </main>
+  <div class="mo" id="pm">
+    <div class="md">
+      <h2 id="mt">Add Project</h2>
+      <form id="project-form" onsubmit="saveProject(event)">
+        <input type="hidden" id="ma" value="add">
+        <input type="hidden" id="mi">
+        <div class="form-group"><label>Title</label><input type="text" id="ft" required></div>
+        <div class="form-group"><label>Description</label><textarea id="fd" rows="3"></textarea></div>
+        <div class="form-group"><label>Tech Stack</label><input type="text" id="fs"></div>
+        <div class="form-group"><label>Project URL</label><input type="text" id="fp"></div>
+        <div class="form-group"><label>GitHub URL</label><input type="text" id="fg"></div>
+        <label class="cl"><input type="checkbox" id="ff"> Featured</label>
+        <div class="br"><button type="submit" class="btn-primary">Save</button><button type="button" class="bc" onclick="closeM()">Cancel</button></div>
+      </form>
+    </div>
+  </div>
+  <script>
+  const defaultProjects = [
+    { id: 1, title: 'Real-Time Disaster Management Web Platform', desc: 'Emergency response application developed as part of participation in Smart India Hackathon (SIH 2025).', tech: 'React.js, Vite, Node.js, REST APIs, SIH 2025', purl: '', gurl: 'https://github.com/JD-the-techie', feat: true },
+    { id: 2, title: 'Vortex — IoT Jet Engine Temperature Telemetry', desc: 'Embedded sensor telemetry monitoring system developed for custom jet engine prototype at Club Technothon.', tech: 'ESP32, Embedded C++, MAX6675, K-Type Thermocouple', purl: '', gurl: 'https://github.com/JD-the-techie', feat: true },
+    { id: 3, title: 'Real-Time Global Currency Converter', desc: 'Responsive financial tool integrating live foreign exchange rate APIs for instant multi-currency conversions.', tech: 'React.js, Vite, ExchangeRate API, CSS3', purl: '', gurl: 'https://github.com/JD-the-techie', feat: false },
+    { id: 4, title: 'Dynamic Library & Inventory Management System', desc: 'Relational database software application supporting book cataloging, loans, and automated fines.', tech: 'Java, Python, MySQL, JDBC / DAO, OOP', purl: '', gurl: 'https://github.com/JD-the-techie', feat: false }
+  ];
+
+  let projects = JSON.parse(localStorage.getItem('jv_projects') || JSON.stringify(defaultProjects));
+
+  function renderTable() {
+    const tbody = document.getElementById('projects-tbody');
+    tbody.innerHTML = '';
+    projects.forEach((p, idx) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><strong>${escapeHtml(p.title)}</strong></td>
+        <td style="color:var(--muted)">${escapeHtml(p.tech || '-')}</td>
+        <td>${p.feat ? '<span class="fb">Featured</span>' : ''}</td>
+        <td>
+          <button class="ab" onclick="openM('edit', ${p.id})">Edit</button>
+          <button class="ab del" onclick="deleteProject(${p.id})">Delete</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function openM(m, id){
+    document.getElementById('pm').classList.add('show');
+    document.getElementById('ma').value = m;
+    if(m === 'edit'){
+      const p = projects.find(item => item.id === id);
+      if(!p) return;
+      document.getElementById('mt').textContent = 'Edit Project';
+      document.getElementById('mi').value = p.id;
+      document.getElementById('ft').value = p.title;
+      document.getElementById('fd').value = p.desc || '';
+      document.getElementById('fs').value = p.tech || '';
+      document.getElementById('fp').value = p.purl || '';
+      document.getElementById('fg').value = p.gurl || '';
+      document.getElementById('ff').checked = !!p.feat;
+    } else {
+      document.getElementById('mt').textContent = 'Add Project';
+      document.getElementById('mi').value = '';
+      document.getElementById('ft').value = '';
+      document.getElementById('fd').value = '';
+      document.getElementById('fs').value = '';
+      document.getElementById('fp').value = '';
+      document.getElementById('fg').value = '';
+      document.getElementById('ff').checked = false;
+    }
+  }
+
+  function saveProject(e) {
+    e.preventDefault();
+    const mode = document.getElementById('ma').value;
+    const title = document.getElementById('ft').value.trim();
+    const desc = document.getElementById('fd').value.trim();
+    const tech = document.getElementById('fs').value.trim();
+    const purl = document.getElementById('fp').value.trim();
+    const gurl = document.getElementById('fg').value.trim();
+    const feat = document.getElementById('ff').checked;
+
+    if (mode === 'edit') {
+      const id = parseInt(document.getElementById('mi').value);
+      const p = projects.find(item => item.id === id);
+      if (p) {
+        p.title = title;
+        p.desc = desc;
+        p.tech = tech;
+        p.purl = purl;
+        p.gurl = gurl;
+        p.feat = feat;
+      }
+    } else {
+      const newId = projects.length > 0 ? Math.max(...projects.map(p => p.id)) + 1 : 1;
+      projects.push({ id: newId, title, desc, tech, purl, gurl, feat });
+    }
+
+    localStorage.setItem('jv_projects', JSON.stringify(projects));
+    renderTable();
+    closeM();
+  }
+
+  function deleteProject(id) {
+    if (confirm('Delete this project?')) {
+      projects = projects.filter(p => p.id !== id);
+      localStorage.setItem('jv_projects', JSON.stringify(projects));
+      renderTable();
+    }
+  }
+
+  function closeM(){document.getElementById('pm').classList.remove('show');}
+  document.getElementById('pm').addEventListener('click',function(e){if(e.target===this)closeM();});
+
+  renderTable();
+  </script>
+</body>
+</html>

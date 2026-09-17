@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Skills | Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <style>
+    body{cursor:auto;display:flex;min-height:100vh}
+    .sb{width:240px;background:var(--surface);border-right:1px solid var(--border);padding:2rem 1.2rem;display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0}
+    .sb-logo{font-family:var(--font-heading);font-size:2rem;color:var(--accent);margin-bottom:2rem;letter-spacing:.1em}
+    .sb ul{list-style:none;display:flex;flex-direction:column;gap:.4rem;flex:1}
+    .sb a{display:flex;align-items:center;gap:.7rem;padding:.8rem 1rem;border-radius:10px;color:var(--muted);text-decoration:none;font-size:.9rem;transition:.3s}
+    .sb a:hover,.sb a.active{background:rgba(168,85,247,.12);color:var(--accent-light)}
+    .sb-bot{border-top:1px solid var(--border);padding-top:1rem}
+    .sb-bot a{color:#ff6b6b}
+    .mc{margin-left:240px;flex:1;padding:2rem 3rem}
+    .dh{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem}
+    .dh h1{font-family:var(--font-heading);font-size:2.5rem}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:.9rem;text-align:left;border-bottom:1px solid var(--border)}
+    th{color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.1em}
+    tr:hover{background:var(--glass)}
+    .prof-bar{width:100px;height:6px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden;display:inline-block;vertical-align:middle;margin-left:.5rem}
+    .prof-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px}
+    .ab{padding:.4rem .8rem;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--muted);cursor:pointer;font-size:.8rem;font-family:var(--font-body);transition:.3s;margin-right:.3rem}
+    .ab:hover{border-color:var(--accent);color:var(--accent-light)}
+    .ab.del{color:#ff6b6b;border-color:rgba(255,77,77,.3)}
+    .ab.del:hover{background:rgba(255,77,77,.1);border-color:#ff6b6b}
+    .mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;align-items:center;justify-content:center}
+    .mo.show{display:flex}
+    .md{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;width:100%;max-width:460px}
+    .md h2{font-family:var(--font-heading);font-size:1.8rem;margin-bottom:1.2rem}
+    .md .form-group{margin-bottom:1rem}
+    .br{display:flex;gap:1rem;margin-top:1rem}
+    .bc{padding:.7rem 1.2rem;background:transparent;border:1px solid var(--border);border-radius:50px;color:var(--muted);cursor:pointer;font-family:var(--font-body)}
+    @media (max-width: 768px) {
+      .sb{position:static;width:100%;}
+      body{flex-direction:column;}
+      .mc{margin-left:0;padding:1.5rem;}
+    }
+  </style>
+</head>
+<body>
+  <aside class="sb">
+    <div class="sb-logo">JV. Admin</div>
+    <ul>
+      <li><a href="index.html"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+      <li><a href="projects.html"><i class="fa-solid fa-diagram-project"></i> Projects</a></li>
+      <li><a href="skills.html" class="active"><i class="fa-solid fa-code"></i> Skills</a></li>
+      <li><a href="../index.html"><i class="fa-solid fa-eye"></i> View Site</a></li>
+    </ul>
+    <div class="sb-bot"><a href="../login.html?logout=true"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></div>
+  </aside>
+  <main class="mc">
+    <div class="dh"><h1>Skills</h1><button class="btn-primary" onclick="openM('add')">+ Add Skill</button></div>
+    <table>
+      <thead><tr><th>Skill</th><th>Category</th><th>Proficiency</th><th>Icon Class</th><th>Actions</th></tr></thead>
+      <tbody id="skills-tbody">
+      </tbody>
+    </table>
+  </main>
+  <div class="mo" id="sm">
+    <div class="md">
+      <h2 id="mt">Add Skill</h2>
+      <form id="skill-form" onsubmit="saveSkill(event)">
+        <input type="hidden" id="ma" value="add">
+        <input type="hidden" id="mi">
+        <div class="form-group"><label>Skill Name</label><input type="text" id="fn" required></div>
+        <div class="form-group"><label>Category</label><input type="text" id="fc" required placeholder="e.g. Languages, Web, Core"></div>
+        <div class="form-group"><label>Proficiency (0-100)</label><input type="number" id="fp" min="0" max="100" value="75"></div>
+        <div class="form-group"><label>Icon Class</label><input type="text" id="fi" placeholder="e.g. fa-brands fa-java"></div>
+        <div class="br"><button type="submit" class="btn-primary">Save</button><button type="button" class="bc" onclick="closeM()">Cancel</button></div>
+      </form>
+    </div>
+  </div>
+  <script>
+  const defaultSkills = [
+    { id: 1, name: 'Python & Java', cat: 'Programming', prof: 90, icon: 'fa-brands fa-python' },
+    { id: 2, name: 'C, C++ & OOP', cat: 'Programming', prof: 85, icon: 'fa-solid fa-code' },
+    { id: 3, name: 'React.js & Vite', cat: 'Frontend Development', prof: 88, icon: 'fa-brands fa-react' },
+    { id: 4, name: 'Node.js & REST APIs', cat: 'Backend Development', prof: 84, icon: 'fa-brands fa-node-js' },
+    { id: 5, name: 'MySQL & SQL DBMS', cat: 'Databases', prof: 86, icon: 'fa-solid fa-database' },
+    { id: 6, name: 'Microsoft Azure & Cloud', cat: 'Tools & Cloud', prof: 80, icon: 'fa-solid fa-cloud' },
+    { id: 7, name: 'ESP32 & IoT Telemetry', cat: 'IoT & Embedded', prof: 82, icon: 'fa-solid fa-microchip' },
+    { id: 8, name: 'Git, GitHub & VS Code', cat: 'Tools & Platforms', prof: 88, icon: 'fa-brands fa-github' }
+  ];
+
+  let skills = JSON.parse(localStorage.getItem('jv_skills') || JSON.stringify(defaultSkills));
+
+  function renderTable() {
+    const tbody = document.getElementById('skills-tbody');
+    tbody.innerHTML = '';
+    skills.forEach(s => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><strong>${escapeHtml(s.name)}</strong></td>
+        <td style="color:var(--muted)">${escapeHtml(s.cat)}</td>
+        <td>${s.prof}%<div class="prof-bar"><div class="prof-fill" style="width:${s.prof}%"></div></div></td>
+        <td style="color:var(--muted);font-size:.8rem">${escapeHtml(s.icon || '-')}</td>
+        <td>
+          <button class="ab" onclick="openM('edit', ${s.id})">Edit</button>
+          <button class="ab del" onclick="deleteSkill(${s.id})">Delete</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function openM(m, id){
+    document.getElementById('sm').classList.add('show');
+    document.getElementById('ma').value = m;
+    if(m === 'edit'){
+      const s = skills.find(item => item.id === id);
+      if(!s) return;
+      document.getElementById('mt').textContent = 'Edit Skill';
+      document.getElementById('mi').value = s.id;
+      document.getElementById('fn').value = s.name;
+      document.getElementById('fc').value = s.cat;
+      document.getElementById('fp').value = s.prof;
+      document.getElementById('fi').value = s.icon || '';
+    } else {
+      document.getElementById('mt').textContent = 'Add Skill';
+      document.getElementById('mi').value = '';
+      document.getElementById('fn').value = '';
+      document.getElementById('fc').value = '';
+      document.getElementById('fp').value = '75';
+      document.getElementById('fi').value = '';
+    }
+  }
+
+  function saveSkill(e) {
+    e.preventDefault();
+    const mode = document.getElementById('ma').value;
+    const name = document.getElementById('fn').value.trim();
+    const cat = document.getElementById('fc').value.trim();
+    const prof = parseInt(document.getElementById('fp').value) || 70;
+    const icon = document.getElementById('fi').value.trim();
+
+    if (mode === 'edit') {
+      const id = parseInt(document.getElementById('mi').value);
+      const s = skills.find(item => item.id === id);
+      if (s) {
+        s.name = name;
+        s.cat = cat;
+        s.prof = prof;
+        s.icon = icon;
+      }
+    } else {
+      const newId = skills.length > 0 ? Math.max(...skills.map(s => s.id)) + 1 : 1;
+      skills.push({ id: newId, name, cat, prof, icon });
+    }
+
+    localStorage.setItem('jv_skills', JSON.stringify(skills));
+    renderTable();
+    closeM();
+  }
+
+  function deleteSkill(id) {
+    if (confirm('Delete this skill?')) {
+      skills = skills.filter(s => s.id !== id);
+      localStorage.setItem('jv_skills', JSON.stringify(skills));
+      renderTable();
+    }
+  }
+
+  function closeM(){document.getElementById('sm').classList.remove('show');}
+  document.getElementById('sm').addEventListener('click',function(e){if(e.target===this)closeM();});
+
+  renderTable();
+  </script>
+</body>
+</html>

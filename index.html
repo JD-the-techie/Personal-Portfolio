@@ -1,27 +1,3 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.portfolio.dao.*" %>
-<%@ page import="com.portfolio.model.*" %>
-<%
-  int uid = 1;
-  SkillDAO skillDAO = new SkillDAO();
-  ProjectDAO projectDAO = new ProjectDAO();
-  EducationDAO educationDAO = new EducationDAO();
-  List<Skill> skills = null;
-  List<Project> projects = null;
-  List<Education> eduList = null;
-  int projectCount = 4;
-  int skillCount = 8;
-  try {
-    skills = skillDAO.getSkillsByUser(uid);
-    projects = projectDAO.getProjectsByUser(uid);
-    eduList = educationDAO.getEducationByUser(uid);
-    projectCount = projectDAO.getProjectCount(uid);
-    skillCount = skillDAO.getSkillCount(uid);
-  } catch (Exception ex) {
-    // Graceful fallback
-  }
-%>
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
@@ -33,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
 
@@ -129,7 +105,7 @@
         <div class="avatar-wrapper">
           <div class="avatar-ring"></div>
           <div class="avatar-img">
-            <img src="${pageContext.request.contextPath}/assets/img/profile.jpg" alt="Jaydeep Verma Profile Photo" loading="lazy">
+            <img src="assets/img/profile.jpg" alt="Jaydeep Verma Profile Photo" loading="lazy">
           </div>
           <div class="location-badge">
             <i class="fa-solid fa-location-dot"></i> Jamshedpur, India
@@ -641,6 +617,6 @@
     </div>
   </footer>
 
-  <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
+  <script src="assets/js/main.js"></script>
 </body>
 </html>

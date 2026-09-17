@@ -16,6 +16,7 @@ public class ContactServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String name    = request.getParameter("name");
         String email   = request.getParameter("email");
+        String subject = request.getParameter("subject");
         String msgText = request.getParameter("message");
 
         // Server-side validation
@@ -36,6 +37,7 @@ public class ContactServlet extends HttpServlet {
             Message msg = new Message();
             msg.setSenderName(name.trim());
             msg.setSenderEmail(email.trim());
+            msg.setSubject(subject != null ? subject.trim() : "");
             msg.setMessage(msgText.trim());
 
             MessageDAO dao = new MessageDAO();

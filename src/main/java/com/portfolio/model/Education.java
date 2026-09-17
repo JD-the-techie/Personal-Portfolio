@@ -5,6 +5,7 @@ public class Education {
     private int userId;
     private String institution;
     private String degree;
+    private String scoreText;
     private double cgpa;
     private int startYear;
     private int endYear;
@@ -22,6 +23,9 @@ public class Education {
 
     public String getDegree() { return degree; }
     public void setDegree(String degree) { this.degree = degree; }
+
+    public String getScoreText() { return scoreText; }
+    public void setScoreText(String scoreText) { this.scoreText = scoreText; }
 
     public double getCgpa() { return cgpa; }
     public void setCgpa(double cgpa) { this.cgpa = cgpa; }

@@ -70,6 +70,7 @@ public class ProjectServlet extends HttpServlet {
         p.setTechStack(req.getParameter("tech_stack"));
         p.setProjectUrl(req.getParameter("project_url"));
         p.setGithubUrl(req.getParameter("github_url"));
+        p.setRole(req.getParameter("role"));
         p.setFeatured("on".equals(req.getParameter("is_featured")));
         return p;
     }
